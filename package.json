@@ -1,0 +1,36 @@
+{
+  "name": "node-mono-seed",
+  "version": "1.0.0",
+  "description": "",
+  "scripts": {
+    "build-web:dev": "rm -rf dist/public && webpack --mode development --env development --config webpack.webapp.config.js",
+    "build-server:dev": "webpack --mode development --end development --config webpack.server.config.js",
+    "build:dev": "npm run build-web:dev && npm run build-server:dev",
+    "build-web:prod": "rm -rf dist/public && webpack --mode production --env production --config webpack.webapp.config.js",
+    "build-server:prod": "webpack --mode production --end production --config webpack.server.config.js",
+    "build:prod": "npm run build-web:prod && npm run build-server:prod",
+    "start": "node ./dist/server.js"
+  },
+  "keywords": [],
+  "author": "Cameron Newton",
+  "dependencies": {
+    "express": "^4.16.4"
+  },
+  "devDependencies": {
+    "@types/express": "^4.16.0",
+    "@types/node": "^10.12.15",
+    "css-loader": "^2.0.1",
+    "html-loader": "^0.5.5",
+    "html-webpack-plugin": "^3.2.0",
+    "mini-css-extract-plugin": "^0.5.0",
+    "optimize-css-assets-webpack-plugin": "^5.0.1",
+    "style-loader": "^0.23.1",
+    "ts-loader": "^5.3.1",
+    "tslint": "^5.11.0",
+    "typescript": "^3.2.2",
+    "uglifyjs-webpack-plugin": "^2.0.1",
+    "webpack": "^4.27.1",
+    "webpack-cli": "^3.1.2",
+    "webpack-node-externals": "^1.7.2"
+  }
+}
