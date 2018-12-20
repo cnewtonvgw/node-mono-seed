@@ -11,15 +11,16 @@ module.exports = env => ({
     output: {
         path: path.join(__dirname, 'dist/public'),
         publicPath: '/',
-        filename: '[name]-[contenthash].js',
+        filename: '[name]' + (isProd(env) ? '-[contenthash].js' : '.js'),
     },
     resolve: {
         extensions: ['.ts', '.js', '.tsx', '.css'],
     },
     target: 'web',
-    devtool: '#source-map',
+    devtool: isProd(env) ? false : '#source-map',
     optimization: {
-        minimizer: (env === 'production'
+        minimizer: (
+            isProd(env)
                 ? [
                     new UglifyJsPlugin({
                         parallel: true,
@@ -49,7 +50,7 @@ module.exports = env => ({
             {
                 test: /\.css$/,
                 use: [
-                    env === 'production' ? MiniCssExtractPlugin.loader : 'style-loader',
+                    isProd(env) ? MiniCssExtractPlugin.loader : 'style-loader',
                     cssLoaderConfig,
                 ],
             },
@@ -70,7 +71,7 @@ module.exports = env => ({
             filename: 'index.html',
             excludeChunks: ['server'], // In case the server chunk somehow ends up attached
         }),
-        ...(env === 'production'
+        ...(isProd(env)
                 ? [
                     new MiniCssExtractPlugin({
                         filename: '[name]-[contenthash].css',
@@ -80,6 +81,10 @@ module.exports = env => ({
         ),
     ],
 });
+
+function isProd(env) {
+    return env === 'production';
+}
 
 const cssLoaderConfig = {
     loader: 'css-loader',
