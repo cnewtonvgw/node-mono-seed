@@ -11,7 +11,7 @@ module.exports = env => ({
     output: {
         path: path.join(__dirname, 'dist/public'),
         publicPath: '/',
-        filename: '[name].js',
+        filename: '[name]-[hash].js',
     },
     resolve: {
         extensions: ['.ts', '.js', '.tsx', '.css'],
@@ -46,22 +46,13 @@ module.exports = env => ({
                     },
                 ],
             },
-            (env === 'production'
-                    ? {
-                        test: /\.css$/,
-                        use: [
-                            MiniCssExtractPlugin.loader,
-                            cssLoaderConfig,
-                        ],
-                    }
-                    : {
-                        test: /\.css$/,
-                        use: [
-                            'style-loader',
-                            cssLoaderConfig,
-                        ],
-                    }
-            ),
+            {
+                test: /\.css$/,
+                use: [
+                    env === 'production' ? MiniCssExtractPlugin.loader : 'style-loader',
+                    cssLoaderConfig,
+                ],
+            },
             {
                 test: /\.(png|svg|jpg|gif)$/,
                 loader: 'url-loader',
@@ -82,8 +73,8 @@ module.exports = env => ({
         ...(env === 'production'
                 ? [
                     new MiniCssExtractPlugin({
-                        filename: '[name].css',
-                        chunkFilename: '[id].css',
+                        filename: '[name]-[hash].css',
+                        chunkFilename: '[id]-[hash].css',
                     }),
                 ]
                 : []
