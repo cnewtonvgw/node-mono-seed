@@ -6,7 +6,7 @@ const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 
 module.exports = env => ({
     entry: {
-        main: './src/webapp/main.ts',
+        main: './src/webapp/main.tsx',
     },
     output: {
         path: path.join(__dirname, 'dist/public'),
