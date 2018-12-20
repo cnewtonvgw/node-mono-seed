@@ -11,7 +11,7 @@ module.exports = env => ({
     output: {
         path: path.join(__dirname, 'dist/public'),
         publicPath: '/',
-        filename: '[name]-[hash].js',
+        filename: '[name]-[contenthash].js',
     },
     resolve: {
         extensions: ['.ts', '.js', '.tsx', '.css'],
@@ -73,8 +73,7 @@ module.exports = env => ({
         ...(env === 'production'
                 ? [
                     new MiniCssExtractPlugin({
-                        filename: '[name]-[hash].css',
-                        chunkFilename: '[id]-[hash].css',
+                        filename: '[name]-[contenthash].css',
                     }),
                 ]
                 : []
