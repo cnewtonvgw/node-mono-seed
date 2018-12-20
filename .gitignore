@@ -62,3 +62,6 @@ typings/
 
 #output directory of webpack
 dist
+
+#IDEA IDE settings
+.idea
