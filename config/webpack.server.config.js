@@ -53,6 +53,7 @@ module.exports = env => [{
         warnings: true,
         // Display the time to differentiate continuous builds
         builtAt: true,
+        timings: true,
     },
 }];
 
