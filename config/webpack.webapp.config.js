@@ -3,13 +3,21 @@ const HtmlWebPackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
+const CleanWebpackPlugin = require('clean-webpack-plugin');
 
-module.exports = env => ({
+const outDir = path.resolve(__dirname, 'dist/public');
+
+module.exports = env => [{
+    name: 'Webapp',
+    bail: isProd(env),
+    watch: !isProd(env),
+    mode: isProd(env) ? 'production' : 'development',
+    devtool: isProd(env) ? false : 'inline-source-map',
     entry: {
         main: './src/webapp/main.tsx',
     },
     output: {
-        path: path.join(__dirname, 'dist/public'),
+        path: outDir,
         publicPath: '/',
         filename: '[name]' + (isProd(env) ? '-[contenthash].js' : '.js'),
     },
@@ -17,19 +25,14 @@ module.exports = env => ({
         extensions: ['.ts', '.js', '.tsx', '.css'],
     },
     target: 'web',
-    devtool: isProd(env) ? false : '#source-map',
     optimization: {
-        minimizer: (
-            isProd(env)
-                ? [
-                    new UglifyJsPlugin({
-                        parallel: true,
-                        sourceMap: true, // set to true if you want JS source maps
-                    }),
-                    new OptimizeCSSAssetsPlugin({}),
-                ]
-                : []
-        ),
+        minimizer: [
+            new UglifyJsPlugin({
+                parallel: true,
+                sourceMap: true,
+            }),
+            new OptimizeCSSAssetsPlugin({}),
+        ],
     },
     module: {
         rules: [
@@ -51,7 +54,13 @@ module.exports = env => ({
                 test: /\.css$/,
                 use: [
                     isProd(env) ? MiniCssExtractPlugin.loader : 'style-loader',
-                    cssLoaderConfig,
+                    {
+                        loader: 'css-loader',
+                        options: {
+                            modules: true,
+                            camelCase: true,
+                        },
+                    },
                 ],
             },
             {
@@ -66,6 +75,8 @@ module.exports = env => ({
         ],
     },
     plugins: [
+        // Delete the contents of the output directory before building
+        new CleanWebpackPlugin(['*'], {root: outDir}),
         new HtmlWebPackPlugin({
             template: './src/webapp/index.html',
             filename: 'index.html',
@@ -80,16 +91,18 @@ module.exports = env => ({
                 : []
         ),
     ],
-});
+    stats: {
+        // Copied from 'minimal' webpack preset https://github.com/webpack/webpack/blob/master/lib/Stats.js#L1397-L1404
+        all: false,
+        modules: true,
+        maxModules: 0,
+        errors: true,
+        warnings: true,
+        // Display the time to differentiate continuous builds
+        builtAt: true,
+    },
+}];
 
 function isProd(env) {
     return env === 'production';
 }
-
-const cssLoaderConfig = {
-    loader: 'css-loader',
-    options: {
-        modules: true,
-        camelCase: true,
-    },
-};
