@@ -5,7 +5,7 @@ const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 
-const outDir = path.resolve(__dirname, 'dist/public');
+const outDir = path.resolve(__dirname, '../dist/public');
 
 module.exports = env => [{
     name: 'Webapp',
@@ -14,7 +14,7 @@ module.exports = env => [{
     mode: isProd(env) ? 'production' : 'development',
     devtool: isProd(env) ? false : 'inline-source-map',
     entry: {
-        main: './src/webapp/main.tsx',
+        main: path.resolve(__dirname, '../src/webapp/main.tsx'),
     },
     output: {
         path: outDir,

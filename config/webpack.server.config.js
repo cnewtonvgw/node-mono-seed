@@ -2,7 +2,7 @@ const path = require('path');
 const nodeExternals = require('webpack-node-externals');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 
-const outDir = path.join(__dirname, 'dist');
+const outDir = path.join(__dirname, '../dist');
 
 module.exports = env => [{
     name: 'Server',
@@ -10,7 +10,7 @@ module.exports = env => [{
     watch: !isProd(env),
     mode: isProd(env) ? 'production' : 'development',
     entry: {
-        server: './src/server/main.ts',
+        server: path.resolve(__dirname, '../src/server/main.ts'),
     },
     resolve: {
         extensions: ['.ts', '.js'],
