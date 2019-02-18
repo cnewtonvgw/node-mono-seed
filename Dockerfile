@@ -10,10 +10,9 @@ COPY package.json /app
 COPY package-lock.json /app
 RUN npm install
 COPY tsconfig.json /app
-COPY webpack.server.config.js /app
-COPY webpack.webapp.config.js /app
+COPY config /app/config
 COPY src /app/src
-RUN npm run build:prod
+RUN npm run build
 
 FROM node:8-alpine
 COPY --from=builder /app/dist /app
