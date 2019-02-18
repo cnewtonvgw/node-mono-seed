@@ -15,7 +15,7 @@ COPY webpack.webapp.config.js /app
 COPY src /app/src
 RUN npm run build:prod
 
-FROM mhart/alpine-node:8
+FROM node:8-alpine
 COPY --from=builder /app/dist /app
 COPY --from=production-deps node_modules /app/node_modules
 CMD node /app/server.js
