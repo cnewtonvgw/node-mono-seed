@@ -1,17 +1,22 @@
 ### Commands:
-`npm run build-web:cont`: Continuously rebuild the web app each time changes are detected.  
-`npm run build-web:dev`: Build only the client in dev mode - purges the `dist/public` directory.  
-`npm run build-server:dev`: Build only the server in dev mode.   
-`npm run build:dev`: Build both the client and the server in dev mode.  
-`npm run build-web:prod`: Build only the client in prod mode - purges the `dist/public` directory.  
-`npm run build-server:prod`: Build only the server in dev mode.  
-`npm run build:prod`: Build both the client and the server in prod mode.  
-`npm run start`: Execute the server.  
+
+`npm run build`: Build both the client and server in 'production mode'.
+`npm run build:dev`: Build both the client and server in 'development mode' - rebuild on file changes.
+`npm run build-svr`: Build only the server portion in 'production mode'.
+`npm run build-web`: Build only the client portion in 'production mode'.
+`npm run build-svr:dev`: Build only the server portion in 'development mode' - rebuild on file changes.
+`npm run build-web:dev`: Build only the client portion in 'development mode' - rebuild on file changes.
+`npm run test`: Run all server tests, then all client tests, output coverage for both.
+`npm run test-svr`: Run all server tests, output coverage.
+`npm run test-web`: Run all client tests, output coverage.
+`npm run test-svr:dev`: Run all server tests, enter watch and rerun mode.
+`npm run test-web:dev`: Run all client tests, enter watch and rerun mode.
+`npm run start`: Start the server.
 
 ##### Basic usage:
 - Clone the repository  
 - Run `npm install` in the root directory  
-- Run `npm run build:prod` in the root directory  
+- Run `npm run build` in the root directory  
 - Run `npm run start` in the root directory  
 - Access the website at `localhost:8080`  
 
@@ -23,5 +28,6 @@ Simply refresh your browser to see your changes.
 - Clone the repository  
 - Run `npm install` in the root directory  
 - Run `npm run build:dev` in the root directory  
-- Run `npm start` in the root directory  
-- Open a separate terminal and run `npm run build-web:cont`  
+- Run `npm start` in the root directory in a separate terminal 
+- Changes to the client will be available immediately (refresh the browser)
+- Changes to the server require only a restart of the `npm start` terminal request. 
