@@ -69,7 +69,7 @@ function validateUpdateBodyCommand(rawCommand: any): UpdateBundleBodyCommand {
     ensureHasPayload(rawCommand);
     return {
         type: BundleCommandType.UPDATE_BODY,
-        id: validateId(rawCommand),
+        id: validateId(rawCommand.id),
         payload: {
             description: validateString(rawCommand.payload.description),
             tagline: validateString(rawCommand.payload.tagline),
