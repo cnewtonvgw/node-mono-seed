@@ -38,6 +38,7 @@
     "no-empty": false,
     "arrow-parens": false,
     "object-literal-sort-keys": false,
+    "no-console": [true, "log"],
     "no-unused-expression": false,
     "max-classes-per-file": [
       false
