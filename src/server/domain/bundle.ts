@@ -1,9 +1,11 @@
 import { bundleErrors } from './bundle-errors';
 import {
     BundleArchivedEvent,
-    BundleAssignedToUserEvent, BundleCreatedEvent,
+    BundleAssignedToUserEvent,
+    BundleCreatedEvent,
     BundleDescriptionChangeEvent,
-    BundleEventType, BundleExpiryChangeEvent,
+    BundleEventType,
+    BundleExpiryChangeEvent,
     BundleStartTimeChangeEvent,
     BundleTaglineChangeEvent,
     BundleUnarchivedEvent,
@@ -90,7 +92,7 @@ export const assignUsers = (bundle: Bundle, userIds: number[]): BundleAssignedTo
             return {
                 type: BundleEventType.ASSIGNED,
                 id: bundle.id,
-                version: bundle.version + ii,
+                version: bundle.version + ii + 1,
                 payload: userIdToAssign,
             };
         });

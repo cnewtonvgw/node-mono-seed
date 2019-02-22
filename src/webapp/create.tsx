@@ -114,7 +114,7 @@ export class Create extends Component<{}, State> {
                 <div>
                     <label>
                         One-Time Offer:
-                        <input type='checkbox' checked={this.state.isSpecialOffer || false}
+                        <input type='checkbox' checked={this.state.isOneTimeOffer || false}
                             onChange={this.setBool.isOneTimeOffer}/>
                     </label>
                 </div>

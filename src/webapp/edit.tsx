@@ -82,6 +82,19 @@ export class Edit extends Component<{}, State> {
                     </label>
                     <button onClick={this.updateBody}>Update Body</button>
                 </div>
+
+                <div>
+                    <label> Assigned Users
+                        <input value={this.state.selected.assignedUsers.join(',')}
+                            onChange={(ev: any) => this.setState({
+                                selected: {
+                                    ...this.state.selected,
+                                    assignedUsers: ev.currentTarget.value.split(',').map(Number),
+                                },
+                            })}/>
+                    </label>
+                    <button onClick={this.updateAssignments}>Update assignments</button>
+                </div>
             </div>
         );
     }
@@ -109,6 +122,18 @@ export class Edit extends Component<{}, State> {
                     description: this.state.selected.description,
                     tagline: this.state.selected.tagline,
                 },
+            }),
+        }).then(this.onUpdateResponse);
+    }
+
+    private updateAssignments = () => {
+        fetch('/command', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json; charset=utf-8' },
+            body: JSON.stringify({
+                type: 5,
+                id: this.state.selected.id,
+                payload: this.state.selected.assignedUsers,
             }),
         }).then(this.onUpdateResponse);
     }

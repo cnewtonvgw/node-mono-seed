@@ -3,6 +3,7 @@ import { BundleRepository } from '../repository/bundle-repository';
 import { bundleErrors } from './bundle-command-errors';
 import {
     archiveBundle,
+    assignUsers,
     createBundle,
     unarchiveBundle,
     updateBundleDescription,
@@ -71,6 +72,16 @@ export async function handleBundleCommand(command: BundleCommand): Promise<void>
             } else {
                 const event = updateBundleExpiryTime(bundle, command.payload);
                 return BundleRepository.save(event);
+            }
+        }
+        case BundleCommandType.ASSIGN_USERS: {
+            const bundle = await BundleRepository.getById(command.id);
+            if (!bundle) {
+                throw bundleErrors.aggregateNotFound();
+            } else {
+                const events = assignUsers(bundle, command.payload);
+                await Promise.all(events.map(evt => BundleRepository.save(evt)));
+                return;
             }
         }
         default:

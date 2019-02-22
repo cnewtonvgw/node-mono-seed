@@ -1,4 +1,5 @@
 import {
+    AssignUsersToBundleCommand,
     BundleCommand,
     BundleCommandType,
     CreateBundleCommand,
@@ -31,6 +32,9 @@ export function validateCommand(request: any): BundleCommand {
         }
         case BundleCommandType.UPDATE_EXPIRY: {
             return validateUpdateExpiryCommand(request);
+        }
+        case BundleCommandType.ASSIGN_USERS: {
+            return validateAssignUsersCommand(request);
         }
         default:
             const never: never = type;
@@ -93,6 +97,14 @@ function validateUpdateExpiryCommand(rawCommand: any): UpdateBundleExpiryCommand
     };
 }
 
+function validateAssignUsersCommand(rawCommand: any): AssignUsersToBundleCommand {
+    return {
+        type: BundleCommandType.ASSIGN_USERS,
+        id: validateId(rawCommand.id),
+        payload: validateNumberArray(rawCommand.payload),
+    };
+}
+
 function ensureHasPayload(command: any): void {
     if (command.payload == null) {
         throw bundleErrors.malformedCommand();
@@ -128,4 +140,14 @@ function validateDate(rawDate: any): Date {
     }
 
     return date;
+}
+
+function validateNumberArray(rawArray: any): number[] {
+    if (!Array.isArray(rawArray)) {
+        throw bundleErrors.malformedCommand();
+    }
+    for (const num of rawArray) {
+        if (typeof num !== 'number') throw bundleErrors.malformedCommand();
+    }
+    return rawArray;
 }

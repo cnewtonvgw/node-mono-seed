@@ -83,11 +83,11 @@ export const BundleRepository = {
     },
 
     save: async (event: BundleEvent): Promise<void> => {
-        return new Promise(res => {
+        return new Promise((res, rej) => {
             setTimeout(() => {
                 const currentVersion = getCurrentVersion(event.id);
                 if (event.version !== currentVersion + 1) {
-                    throw new Error('409 conflict');
+                    rej(new Error('409 conflict expected: ' + (currentVersion + 1) + ' got: ' + event.version));
                 } else {
                     eventStore.push(event);
                     res();

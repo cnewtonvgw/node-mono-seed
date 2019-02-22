@@ -4,6 +4,7 @@ export enum BundleCommandType {
     UPDATE_BODY,
     UPDATE_EXPIRY,
     UPDATE_START,
+    ASSIGN_USERS,
 }
 
 
@@ -50,9 +51,16 @@ export interface UpdateBundleStartCommand {
     payload: Date;
 }
 
+export interface AssignUsersToBundleCommand {
+    type: BundleCommandType.ASSIGN_USERS;
+    id: string;
+    payload: number[];
+}
+
 export type BundleCommand =
     | CreateBundleCommand
     | SetBundleArchiveStatusCommand
     | UpdateBundleBodyCommand
     | UpdateBundleExpiryCommand
-    | UpdateBundleStartCommand;
+    | UpdateBundleStartCommand
+    | AssignUsersToBundleCommand;
