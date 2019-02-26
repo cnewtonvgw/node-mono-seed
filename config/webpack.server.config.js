@@ -1,6 +1,7 @@
 const path = require('path');
 const nodeExternals = require('webpack-node-externals');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 const outDir = path.join(__dirname, '../dist');
 
@@ -37,12 +38,20 @@ module.exports = env => [{
                     loader: 'ts-loader',
                 },
             },
-
         ],
     },
     plugins: [
         // Delete the contents of the output directory before building (excluding the output of the client build)
         new CleanWebpackPlugin(['!(public)'], {root: outDir}),
+        // Move server views and assets into the output directory
+        new CopyWebpackPlugin([
+            {
+                context: path.resolve(__dirname, '../src/server/pages'),
+                from: '**/*',
+                to: 'pages/',
+                force: true,
+            },
+        ]),
     ],
     stats: {
         // Copied from 'minimal' webpack preset https://github.com/webpack/webpack/blob/master/lib/Stats.js#L1397-L1404

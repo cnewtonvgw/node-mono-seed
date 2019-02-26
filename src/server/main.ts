@@ -1,18 +1,14 @@
-import * as path from 'path';
 import * as express from 'express';
+
+import { prepareMiddleware } from './middleware';
+import { setupRoutes } from './routes';
 
 const app = express();
 
-const publicFolder = path.resolve(__dirname, 'public');
-const webapp = path.resolve(publicFolder, 'index.html');
+prepareMiddleware(app);
+setupRoutes(app);
 
-app.use(express.static(publicFolder));
-app.get('*', (req, res) => {
-    res.sendFile(webapp);
-});
-
-const PORT = process.env.PORT || 8080;
-app.listen(PORT, () => {
-    console.log(`App listening to ${PORT}....`);
+app.listen(8080, () => {
+    console.log(`App listening to 8080....`);
     console.log('Press Ctrl+C to quit.');
 });
